@@ -94,6 +94,7 @@ ol.source.Vector.prototype.prepareFeatures = function(layer, extent, projection,
   return this.loadState_;
 };
 
+
 /**
  * @param {string|undefined} url new url to be set for this resource
  */
@@ -105,16 +106,8 @@ ol.source.Vector.prototype.setUrl = function(url) {
 
 
 /**
- * @param {string|undefined} url new url to be set for this resource
- */
-ol.source.Vector.prototype.setUrl = function(url) {
-  this.url_ = url;
-};
-
-
-/**
  * @return {string|undefined} url
  */
 ol.source.Vector.prototype.getUrl = function() {
-  return this.getUrl();
+  return this.url_;
 };
