@@ -69,10 +69,11 @@ goog.inherits(ol.source.Vector, ol.source.Source);
 ol.source.Vector.prototype.prepareFeatures = function(layer, extent, projection,
     opt_callback) {
   // TODO: Implement strategies. BBOX aware strategies will need the extent.
-  if (goog.isDef(this.getUrl()) &&
+  var url = this.getUrl() || null;
+  if (goog.isDef(url) &&
       this.loadState_ == ol.source.VectorLoadState.IDLE) {
     this.loadState_ = ol.source.VectorLoadState.LOADING;
-    goog.net.XhrIo.send(this.getUrl(), goog.bind(function(event) {
+    goog.net.XhrIo.send(url, goog.bind(function(event) {
       var xhr = event.target;
       if (xhr.isSuccess()) {
         // TODO: Get source projection from data if supported by parser.

@@ -45,7 +45,7 @@ goog.inherits(ol.source.XAPI, ol.source.Vector);
 /**
  * @param {ol.layer.Vector} layer Layer that parses the data.
  * @param {ol.Extent} extent Extent that needs to be fetched.
- * @param {ol.Projection} projection Projection of the view.
+ * @param {ol.proj.Projection} projection Projection of the view.
  * @param {function()=} opt_callback Callback which is called when features are
  *     parsed after loading.
  * @return {ol.source.VectorLoadState} The current load state.
