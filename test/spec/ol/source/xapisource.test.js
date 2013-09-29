@@ -1,5 +1,6 @@
 goog.require('goog.object');
 goog.require('ol.layer.Vector');
+goog.require('ol.proj');
 goog.require('ol.source.Vector');
 goog.provide('ol.test.source.XAPI');
 goog.require('ol.source.XAPI');
