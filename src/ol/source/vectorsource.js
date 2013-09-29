@@ -46,7 +46,7 @@ ol.source.Vector = function(options) {
    * @private
    * @type {string|undefined}
    */
-  this.url_ = options.url;
+  this.url_ = this.setUrl(options.url);
 
   goog.base(this, {
     attributions: options.attributions,
@@ -69,7 +69,7 @@ goog.inherits(ol.source.Vector, ol.source.Source);
 ol.source.Vector.prototype.prepareFeatures = function(layer, extent, projection,
     opt_callback) {
   // TODO: Implement strategies. BBOX aware strategies will need the extent.
-  var url = this.getUrl() || null;
+  var url = this.getUrl();
   if (goog.isDef(url) &&
       this.loadState_ == ol.source.VectorLoadState.IDLE) {
     this.loadState_ = ol.source.VectorLoadState.LOADING;
@@ -97,7 +97,7 @@ ol.source.Vector.prototype.prepareFeatures = function(layer, extent, projection,
 
 
 /**
- * @param {string|undefined} url new url to be set for this resource
+ * @param {string|undefined} url
  */
 ol.source.Vector.prototype.setUrl = function(url) {
   this.url_ = url;
@@ -107,7 +107,7 @@ ol.source.Vector.prototype.setUrl = function(url) {
 
 
 /**
- * @return {string|undefined} url
+ * @return {string|undefined}
  */
 ol.source.Vector.prototype.getUrl = function() {
   return this.url_;
