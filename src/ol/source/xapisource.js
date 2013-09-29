@@ -1,9 +1,9 @@
 goog.require('goog.net.XhrIo');
 goog.require('goog.object');
 goog.require('goog.string');
+goog.require('ol.parser.OSM');
 goog.require('ol.proj');
 goog.require('ol.source.Vector');
-goog.require('ol.parser.OSM');
 
 goog.provide('ol.source.XAPI');
 
@@ -37,7 +37,8 @@ ol.source.XAPI = function(options) {
    */
   this.params = goog.isDef(options.params) ? options.params : {};
 
-  options.parser = goog.isDef(options.parser) ? options.parser : new ol.parser.OSM();
+  options.parser = goog.isDef(options.parser) ?
+      options.parser : new ol.parser.OSM();
 
   goog.base(this, options);
 

@@ -1,6 +1,5 @@
 goog.require('goog.dom.xml');
 goog.require('ol.Feature');
-goog.require('ol.geom.GeometryType');
 goog.require('ol.geom.Point');
 goog.require('ol.parser.XML');
 goog.provide('ol.parser.OSM');
@@ -80,7 +79,7 @@ ol.parser.OSM.prototype.read = function(data, opt_callback) {
   obj.metadata = {projection: 'EPSG:4326'};
   this.readNode(data, obj);
   if (obj.features === undefined) {
-      obj.features = null;
+    obj.features = null;
   }
   if (goog.isDef(opt_callback)) {
     opt_callback.call(null, obj);
@@ -97,6 +96,7 @@ ol.parser.OSM.prototype.read = function(data, opt_callback) {
 ol.parser.OSM.prototype.readFeaturesFromString = function(str) {
   return this.read(str);
 };
+
 
 /**
  * @param {string} str String data.
