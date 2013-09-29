@@ -13,6 +13,7 @@ goog.require('ol.source.Vector');
 
 
 /**
+ * Allows the user to select features on the map.
  * @constructor
  * @extends {ol.interaction.Interaction}
  * @param {ol.interaction.SelectOptions=} opt_options Options.
@@ -26,6 +27,13 @@ ol.interaction.Select = function(opt_options) {
    */
   this.condition_ = goog.isDef(options.condition) ?
       options.condition : ol.interaction.condition.clickOnly;
+
+  /**
+   * @private
+   * @type {ol.interaction.ConditionType}
+   */
+  this.addCondition_ = goog.isDef(options.addCondition) ?
+      options.addCondition : ol.interaction.condition.shiftKeyOnly;
 
   /**
    * Mapping between original features and cloned features on selection layers.
@@ -64,7 +72,7 @@ ol.interaction.Select.prototype.handleMapBrowserEvent =
     if (!goog.isNull(this.layerFilter_)) {
       layers = goog.array.filter(layers, this.layerFilter_);
     }
-    var clear = !ol.interaction.condition.shiftKeyOnly(mapBrowserEvent);
+    var clear = !this.addCondition_(mapBrowserEvent);
 
     var that = this;
     var select = function(featuresByLayer) {
@@ -144,7 +152,7 @@ ol.interaction.Select.prototype.select =
       } else if (!(featureId in oldFeatureMap)) {
         clone = new ol.Feature(feature.getAttributes());
         clone.setGeometry(feature.getGeometry().clone());
-        clone.setFeatureId(feature.getFeatureId());
+        clone.setId(feature.getId());
         clone.setSymbolizers(feature.getSymbolizers());
         clone.renderIntent = ol.layer.VectorLayerRenderIntent.SELECTED;
         featureMap[featureId] = clone;
