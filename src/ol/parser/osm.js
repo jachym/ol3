@@ -42,18 +42,8 @@ ol.parser.OSM = function() {
 
         var feature = new ol.Feature(container.properties);
 
-        // shared vertices are used
-        var sharedVertices;
-        if (this.readFeaturesOptions_) {
-          var callback = this.readFeaturesOptions_.callback;
-          if (callback) {
-            sharedVertices = callback(feature,
-                ol.geom.GeometryType.POINT);
-          }
-        }
-
         // set feature attributes
-        var geometry = new ol.geom.Point([lon, lat], sharedVertices);
+        var geometry = new ol.geom.Point([lon, lat]);
         feature.setGeometry(geometry);
 
         // set feature ID
@@ -102,12 +92,9 @@ ol.parser.OSM.prototype.read = function(data, opt_callback) {
 /**
  * Parse a XAPI document provided as a string.
  * @param {string} str XAPI document.
- * @param {ol.parser.ReadFeaturesOptions=} opt_options Reader options.
  * @return {ol.parser.ReadFeaturesResult} Features and metadata.
  */
-ol.parser.OSM.prototype.readFeaturesFromString =
-    function(str, opt_options) {
-  this.readFeaturesOptions_ = opt_options;
+ol.parser.OSM.prototype.readFeaturesFromString = function(str) {
   return this.read(str);
 };
 
@@ -115,10 +102,8 @@ ol.parser.OSM.prototype.readFeaturesFromString =
  * @param {string} str String data.
  * @param {function(ol.parser.ReadFeaturesResult)}
  *     callback Callback which is called after parsing.
- * @param {ol.parser.ReadFeaturesOptions=} opt_options Feature reading options.
  */
 ol.parser.OSM.prototype.readFeaturesFromStringAsync =
-    function(str, callback, opt_options) {
-  this.readFeaturesOptions_ = opt_options;
+    function(str, callback) {
   this.read(str, callback);
 };
