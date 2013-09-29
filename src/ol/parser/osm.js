@@ -57,7 +57,7 @@ ol.parser.OSM = function() {
         feature.setGeometry(geometry);
 
         // set feature ID
-        feature.setFeatureId(id);
+        feature.setId(id);
 
         // push feature to features array
         object.features.push(feature);
@@ -77,7 +77,7 @@ goog.inherits(ol.parser.OSM, ol.parser.XML);
  * @param {string|Document|Element|Object} data to read
  * @param {Function=} opt_callback Optional callback to call when reading is
  * done.
- * @return {Object} An object representing the document.
+ * @return {ol.parser.ReadFeaturesResult} Features and metadata.
  */
 ol.parser.OSM.prototype.read = function(data, opt_callback) {
   if (goog.isString(data)) {
@@ -87,14 +87,15 @@ ol.parser.OSM.prototype.read = function(data, opt_callback) {
     data = data.documentElement;
   }
   var obj = {};
+  obj.metadata = {projection: 'EPSG:4326'};
   this.readNode(data, obj);
+  if (obj.features === undefined) {
+      obj.features = null;
+  }
   if (goog.isDef(opt_callback)) {
-    opt_callback.call(null, [obj]);
+    opt_callback.call(null, obj);
   }
-  else {
-    return obj;
-  }
-  return null;
+  return obj;
 };
 
 
@@ -102,10 +103,22 @@ ol.parser.OSM.prototype.read = function(data, opt_callback) {
  * Parse a XAPI document provided as a string.
  * @param {string} str XAPI document.
  * @param {ol.parser.ReadFeaturesOptions=} opt_options Reader options.
- * @return {Array.<ol.Feature>} Array of features.
+ * @return {ol.parser.ReadFeaturesResult} Features and metadata.
  */
 ol.parser.OSM.prototype.readFeaturesFromString =
     function(str, opt_options) {
   this.readFeaturesOptions_ = opt_options;
-  return this.read(str).features;
+  return this.read(str);
+};
+
+/**
+ * @param {string} str String data.
+ * @param {function(ol.parser.ReadFeaturesResult)}
+ *     callback Callback which is called after parsing.
+ * @param {ol.parser.ReadFeaturesOptions=} opt_options Feature reading options.
+ */
+ol.parser.OSM.prototype.readFeaturesFromStringAsync =
+    function(str, callback, opt_options) {
+  this.readFeaturesOptions_ = opt_options;
+  this.read(str, callback);
 };
