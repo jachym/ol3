@@ -235,10 +235,14 @@ class ObjectLiteral(Exportable):
         for i, prop in enumerate(sorted(self.prop_types.keys())):
             prefix =  ' * @typedef {{' if i == 0 else ' *            '
             suffix = '}}' if i == len(self.prop_types) - 1 else ','
-            type = self.prop_types[prop]
-            if '|' in type:
-                type = '(%s)' % (type,)
-            lines.append('%s%s: %s%s\n' % (prefix, prop, type, suffix))
+            data_type = self.prop_types[prop]
+            if '|' in data_type:
+                data_type = '(%s)' % (data_type,)
+            if '=' in data_type:
+                data_type = data_type.replace('=','')
+                if not 'undefined' in data_type:
+                    data_type = '(%s|undefined)' % (data_type)
+            lines.append('%s%s: %s%s\n' % (prefix, prop, data_type, suffix))
         lines.append(' */\n')
         lines.append('%s;\n' % (self.name,))
         return ''.join(lines)
@@ -329,7 +333,7 @@ def main(argv):
                     requires.add('.'.join(components[:-2]))
                 else:
                     requires.add('.'.join(components[:-1]))
-                name = '.'.join(components[:-1]) 
+                name = '.'.join(components[:-1])
                 prop = components[-1]
                 if name in objects:
                     symbol = objects[name]
