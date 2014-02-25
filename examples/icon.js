@@ -28,7 +28,6 @@ var iconStyle = new ol.style.Style({
   }))
 });
 
-iconFeature.setStyle(iconStyle);
 
 var vectorSource = new ol.source.Vector({
   features: [iconFeature]
@@ -37,6 +36,8 @@ var vectorSource = new ol.source.Vector({
 var vectorLayer = new ol.layer.Vector({
   source: vectorSource
 });
+
+vectorLayer.setStyle(iconStyle);
 
 var rasterLayer = new ol.layer.Tile({
   source: new ol.source.TileJSON({
@@ -96,3 +97,25 @@ $(map.getViewport()).on('mousemove', function(e) {
     map.getTarget().style.cursor = '';
   }
 });
+
+iconFeature.setStyle(
+    new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'red',
+        opacity: 0.6
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'red',
+        opacity: 1,
+        width: 1
+      }),
+      image: new ol.style.Circle({
+        opacity: 0.6,
+        radius: 4,
+        fill: new ol.style.Fill({
+          color: 'red'
+        })
+      })
+    })
+
+);
